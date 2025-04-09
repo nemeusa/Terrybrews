@@ -24,7 +24,7 @@ public class Clients : MonoBehaviour
         if (transform.position.x  <= 0.6 && !_served)
         {
             Debug.Log("pidiendo");
-            transform.right = dir;
+            transform.right = -dir;
             _orderTimer += 0.1f * Time.deltaTime;
         }
         if (_orderTimer >= _orderingTime)
@@ -33,7 +33,7 @@ public class Clients : MonoBehaviour
             _served = true;
             transform.forward = -dir;
             transform.position = new Vector3(transform.position.x + _intoExit * (_exitSpeed * Time.deltaTime), transform.position.y, transform.position.z);
-            Debug.Log(transform.position + _intoExit * dir * _speed * Time.deltaTime);
+            //Debug.Log(transform.position + _intoExit * dir * _speed * Time.deltaTime);
             //Destroy(gameObject, 10);
         }
         if (transform.position.x >= 0.6 && !_served)
