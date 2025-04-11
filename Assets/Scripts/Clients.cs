@@ -14,11 +14,13 @@ public class Clients : MonoBehaviour
     [SerializeField] Transform _enterPoint;
     [SerializeField] GameObject pedidoTexto;
     float _intoExit;
+    public bool _imposter;
 
     Vector3 dir;
     Vector3 dirEnter;
 
     public Color nuevoColor = Color.red;
+    public Color buenoColor = Color.yellow;
 
 
     void Start()
@@ -43,6 +45,14 @@ public class Clients : MonoBehaviour
             _orderTimer += 0.1f * Time.deltaTime;
             if(_intoExit == -1)
             {
+                _imposter = true;
+                GetComponent<Renderer>().material.color = nuevoColor; 
+                Debug.Log("Impostor");
+            }
+
+            else { 
+                _imposter = false;
+                Debug.Log("tipo bueno");
                 ColorXD();
             }
         }
@@ -64,6 +74,7 @@ public class Clients : MonoBehaviour
                 entrando();
                 Debug.Log("vuelve");
                 _served = false;
+                _intoExit = Random.Range(0, 2) == 0 ? -1 : 1;
             }
         }
         if (transform.position.x >= 0.6 && !_served || _orderTimer <= 0 && !_served)
@@ -81,7 +92,7 @@ public class Clients : MonoBehaviour
 
     void ColorXD()
     {
-        GetComponent<Renderer>().material.color = nuevoColor;
+        GetComponent<Renderer>().material.color = buenoColor;
 
     }
 }

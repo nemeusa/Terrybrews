@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     public LayerMask beverageLayer;
     public LayerMask clientLayer;
 
+    public Clients clientCode;
+
     public TMP_Text scoreText;
     public TMP_Text requestText;
     public GameObject cliente;
@@ -46,8 +48,14 @@ public class GameManager : MonoBehaviour
 
         if (selectedDrink == currentRequest)
         {
-            score += 100;
             Debug.Log("Si");
+            if(!clientCode._imposter)
+            {
+                score += 100;
+
+            }    
+
+            else { score -= 100; }
         }
         else
         {
