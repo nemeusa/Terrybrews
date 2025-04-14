@@ -1,16 +1,20 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public LayerMask beverageLayer;
     public LayerMask clientLayer;
+    public Animator cameraDown;
 
     public Clients clientCode;
 
     public TMP_Text scoreText;
     public TMP_Text requestText;
     public GameObject cliente;
+    public GameObject JumpsCareSus;
 
     private string selectedDrink = null;
     private string currentRequest;
@@ -32,7 +36,7 @@ public class GameManager : MonoBehaviour
                 Beverage drinkType = hit.collider.GetComponent<Beverage>();
                 if (drinkType != null)
                 {
-                   selectedDrink = drinkType.drinkType.ToString();
+                    selectedDrink = drinkType.drinkType.ToString();
                 }
             }
             else if (Physics.Raycast(ray, out hit, 100f, clientLayer))
@@ -49,13 +53,18 @@ public class GameManager : MonoBehaviour
         if (selectedDrink == currentRequest)
         {
             Debug.Log("Si");
-            if(!clientCode._imposter)
+            if (!clientCode._imposter)
             {
                 score += 100;
+                cameraDown.SetBool("Imposter", false);
 
-            }    
+            }
 
-            else { score -= 100; }
+            else
+            {
+                score -= 100;
+                StartCoroutine(ScaryJumpscary());
+            }
         }
         else
         {
@@ -74,6 +83,17 @@ public class GameManager : MonoBehaviour
         currentRequest = opciones[Random.Range(0, opciones.Length)];
         requestText.text = "El cliente quiere: " + currentRequest;
 
-        cliente.GetComponent<NPCRequest>().requestedItem= currentRequest;
+        cliente.GetComponent<NPCRequest>().requestedItem = currentRequest;
+    }
+
+    IEnumerator ScaryJumpscary()
+    {
+        JumpsCareSus.SetActive(true);
+        cameraDown.SetBool("Imposter", true);
+        yield return new WaitForSeconds(1);
+        cameraDown.SetBool("Imposter", false);
+        JumpsCareSus.SetActive(false);
+
+
     }
 }
