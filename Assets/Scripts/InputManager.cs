@@ -5,6 +5,13 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public LayerMask interactableLayer;
+    //public LayerMask pumpLayer;
+
+    public GameObject muerto;
+
+    [SerializeField] Animator animatorClient;
+
+    public bool piumba;
 
     private Cup vasoSeleccionado;
 
@@ -18,7 +25,7 @@ public class InputManager : MonoBehaviour
                 if (hit.collider.TryGetComponent(out Cup vaso))
                 {
                     vasoSeleccionado = vaso;
-                    Debug.Log("Vaso Seleccionado: " + vaso.cupSize);
+                    //Debug.Log("Vaso Seleccionado: " + vaso.cupSize);
                 }
                 else if (hit.collider.TryGetComponent(out Beverage botella))
                 {
@@ -28,10 +35,32 @@ public class InputManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Seleccioná un vaso");
+                        //Debug.Log("Seleccioná un vaso");
                     }
                 }
+                else if (hit.collider.TryGetComponent(out Pump _pump))
+                {
+                    StartCoroutine(Client());
+                }
             }
+
+            //else if (Physics.Raycast(ray, 100f, interactableLayer))
+            //{
+            //    Debug.Log("matado");
+            //}
         }
+    }
+
+    IEnumerator Client()
+    {
+        //Debug.Log("matado");
+        piumba = true;
+        //animatorClient.SetBool("Death", true);
+        muerto.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        //animatorClient.SetBool("Death", false);
+        muerto.SetActive(false);
+        piumba = false;
+
     }
 }

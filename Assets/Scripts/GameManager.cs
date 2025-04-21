@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Animator cameraDown;
 
     public Clients clientCode;
+    public InputManager piumbaCode;
 
     public TMP_Text scoreText;
     public TMP_Text requestText;
@@ -44,6 +45,20 @@ public class GameManager : MonoBehaviour
                 EntregarBebida();
             }
         }
+        if (piumbaCode.piumba && !clientCode._imposter && clientCode.pidiendo)
+        {
+            Debug.Log("naooo me mataste :c");
+            score -= 1;
+            scoreText.text = "Puntos: " + score;
+        }
+
+        else if (piumbaCode.piumba && clientCode._imposter && clientCode.pidiendo)
+        {
+            score += 1;
+            Debug.Log("que pete");
+            scoreText.text = "Puntos: " + score;
+        }
+
     }
 
     void EntregarBebida()
@@ -52,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         if (selectedDrink == currentRequest)
         {
-            Debug.Log("Si");
+            //Debug.Log("Si");
             if (!clientCode._imposter)
             {
                 score += 100;
@@ -69,10 +84,12 @@ public class GameManager : MonoBehaviour
         else
         {
             score -= 10;
-            Debug.Log("No");
+           // Debug.Log("No");
         }
 
-        scoreText.text = "Puntaje: " + score;
+
+
+        scoreText.text = "Puntos: " + score;
         selectedDrink = null;
         NuevaPeticion();
     }

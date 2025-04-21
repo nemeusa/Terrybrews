@@ -10,6 +10,7 @@ public class Clients : MonoBehaviour
     [SerializeField] float _orderingTime;
     [SerializeField] float _orderTimer;
     [SerializeField] bool _served;
+    public bool pidiendo;
     [SerializeField] Transform _servePoint;
     [SerializeField] Transform _enterPoint;
     [SerializeField] GameObject pedidoTexto;
@@ -30,7 +31,7 @@ public class Clients : MonoBehaviour
 
         pedidoTexto.SetActive(false);
         _intoExit = Random.Range(0, 2) == 0 ? -1 : 1;
-        Debug.Log(_intoExit);
+        //Debug.Log(_intoExit);
     }
 
     void Update()
@@ -40,26 +41,28 @@ public class Clients : MonoBehaviour
         if (transform.position.x  <= 0.6 && !_served)
         {
             pedidoTexto.SetActive(true);
-            Debug.Log("pidiendo");
+            pidiendo = true;
+           // Debug.Log("pidiendo");
             transform.right = -dir;
             _orderTimer += 0.1f * Time.deltaTime;
             if(_intoExit == -1)
             {
                 _imposter = true;
                 GetComponent<Renderer>().material.color = nuevoColor; 
-                Debug.Log("Impostor");
+               // Debug.Log("Impostor");
             }
 
             else { 
                 _imposter = false;
-                Debug.Log("tipo bueno");
+               // Debug.Log("tipo bueno");
                 ColorXD();
             }
         }
         if (_orderTimer >= _orderingTime)
         {
             pedidoTexto.SetActive(false);
-            Debug.Log("se va");
+            //Debug.Log("se va");
+            pidiendo = false;
             _served = true;
             transform.forward = dirEnter;
             transform.position += (dirEnter * _speed * Time.deltaTime);
@@ -72,7 +75,7 @@ public class Clients : MonoBehaviour
                 _orderTimer = 0;
 
                 entrando();
-                Debug.Log("vuelve");
+               // Debug.Log("vuelve");
                 _served = false;
                 _intoExit = Random.Range(0, 2) == 0 ? -1 : 1;
             }
@@ -80,7 +83,7 @@ public class Clients : MonoBehaviour
         if (transform.position.x >= 0.6 && !_served || _orderTimer <= 0 && !_served)
         {
             entrando();
-            Debug.Log("entrando");
+            //Debug.Log("entrando");
         }
     }
 
